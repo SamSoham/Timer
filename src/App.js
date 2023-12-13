@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { IconButton } from '@mui/material';
+import { IconButton, Snackbar,Alert } from '@mui/material';
 import { PlayCircle } from '@mui/icons-material';
 
 function App() {
@@ -10,9 +10,11 @@ function App() {
   const [hr,setHr] = useState(0)
   const [sec,setSec] = useState(0)
   const [start,setStart] = useState(false)
+  const [open,setOpen] = useState(false)
   var timer 
   
   function set(){
+   if(time>-1){
     let seconds = time*60
     let hours = Math.floor(seconds/3600)
       seconds -= hours*3600
@@ -21,6 +23,10 @@ function App() {
     setHr(hours)
     setMin(minutes)
     setSec(seconds)
+   }
+   else{
+    setOpen(true)
+   }
   }
 
   function reset(){
@@ -56,6 +62,11 @@ function App() {
 
   return (
     <div className="App">
+      <Snackbar open={open} autoHideDuration={5000} onClose={()=>setOpen(false)}>
+  <Alert onClose={()=>setOpen(false)} severity="warning" sx={{ width: '100%' }}>
+    Enter a valid number
+  </Alert>
+</Snackbar>
      <div className='mininput'>
      <p>Enter in minutes</p>
      <input value={time} onChange={(e)=>setTime(e.target.value)}></input>
